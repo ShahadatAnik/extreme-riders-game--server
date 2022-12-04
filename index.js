@@ -24,10 +24,35 @@ app.get('/api/get_car_1/', (req,res)=>{
     });
 });
 
+app.get('/api/get_car_2/', (req,res)=>{
+    const sqlSelect = "SELECT x_axis, y_axis from cars_position where car_name='car_2'";
+    db.query(sqlSelect, (err, result)=>{
+        //console.log(result)
+        res.send(result);
+
+    });
+});
+
 app.post('/api/update_car_1', (req, res)=>{
     const x_axis = req.body.x_axis
     const y_axis = req.body.y_axis
     const sqlUpdate = "UPDATE cars_position SET x_axis = ?,y_axis =? WHERE car_name = 'car_1'"
+    db.query(sqlUpdate, [x_axis, y_axis], (err, result)=>{
+        //console.log(err)
+        if(err){
+            res.send(result)
+        }
+        else{
+            res.send(result)
+        }
+    });
+    
+})
+
+app.post('/api/update_car_2', (req, res)=>{
+    const x_axis = req.body.x_axis
+    const y_axis = req.body.y_axis
+    const sqlUpdate = "UPDATE cars_position SET x_axis = ?,y_axis =? WHERE car_name = 'car_2'"
     db.query(sqlUpdate, [x_axis, y_axis], (err, result)=>{
         //console.log(err)
         if(err){
