@@ -68,3 +68,5 @@ app.post('/api/update_car_2', (req, res)=>{
 app.listen(3001, ()=> {
     console.log("running")
 })
+
+console.log("running")
