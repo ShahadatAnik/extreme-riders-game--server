@@ -20,7 +20,6 @@ app.get('/api/get_car_1/', (req,res)=>{
     db.query(sqlSelect, (err, result)=>{
         //console.log(result)
         res.send(result);
-
     });
 });
 
