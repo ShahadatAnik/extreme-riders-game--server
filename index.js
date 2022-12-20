@@ -80,6 +80,22 @@ app.get('/api/get_total_wins/', (req,res)=>{
     });
 });
 
+app.post('/api/update_total_wins', (req, res)=>{
+    const player1_win = req.body.player1_win
+    const player2_win = req.body.player2_win
+    const sqlUpdate = "UPDATE total_win SET player1_win = ?,player2_win =?"
+    db.query(sqlUpdate, [player1_win, player2_win], (err, result)=>{
+        if(err){
+            //res.send(result)
+            console.log(err)
+        }
+        else{
+            res.send(result)
+        }
+    });
+    
+})
+
 app.listen(3001, ()=> {
     console.log("running")
 })
