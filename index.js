@@ -64,6 +64,22 @@ app.post('/api/update_car_2', (req, res)=>{
     
 })
 
+app.get('/api/get_coins_earned/', (req,res)=>{
+    const sqlSelect = "SELECT player1_coins, player2_coins from coins_earned";
+    db.query(sqlSelect, (err, result)=>{
+        //console.log(result)
+        res.send(result);
+    });
+});
+
+app.get('/api/get_total_wins/', (req,res)=>{
+    const sqlSelect = "SELECT player1_win, player2_win from total_win";
+    db.query(sqlSelect, (err, result)=>{
+        //console.log(result)
+        res.send(result);
+    });
+});
+
 app.listen(3001, ()=> {
     console.log("running")
 })
