@@ -80,13 +80,13 @@ app.get('/api/get_total_wins/', (req,res)=>{
     });
 });
 
-app.post('/api/update_total_wins', (req, res)=>{
-    const player1_win = req.body.player1_win
-    const player2_win = req.body.player2_win
-    const sqlUpdate = "UPDATE total_win SET player1_win = ?,player2_win =?"
-    db.query(sqlUpdate, [player1_win, player2_win], (err, result)=>{
+app.post('/api/update_total_coin', (req, res)=>{ //temporary coin table
+    const player1_coin = req.body.player1_coin
+    const player2_coin = req.body.player2_coin
+    const sqlUpdate = "UPDATE coins_earned SET player1_coins = ?,player2_coins =?"
+    db.query(sqlUpdate, [player1_coin, player2_coin], (err, result)=>{
         if(err){
-            //res.send(result)
+            res.send(result)
             console.log(err)
         }
         else{
