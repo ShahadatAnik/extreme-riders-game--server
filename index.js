@@ -96,6 +96,22 @@ app.post('/api/update_total_coin', (req, res)=>{ //temporary coin table
     
 })
 
+app.get('/api/get_total_coin/', (req,res)=>{
+    const sqlSelect = "SELECT player1_coin, player2_coin from total_coin";
+    db.query(sqlSelect, (err, result)=>{
+        //console.log(result)
+        res.send(result);
+    });
+});
+
+app.get('/api/get_total_win/', (req,res)=>{
+    const sqlSelect = "SELECT player1_win, player2_win from total_win";
+    db.query(sqlSelect, (err, result)=>{
+        //console.log(result)
+        res.send(result);
+    });
+});
+
 app.listen(3001, ()=> {
     console.log("running")
 })
