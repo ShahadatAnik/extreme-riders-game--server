@@ -1,4 +1,4 @@
-Extreme Riders
+Extreme Riders <br>
 This is a project built with Node.js, ReactJS, ExpressJS, MongoDB, and MySQL. This is a simple game between 2 player who uses a car to collect coins in given time. The player who collects more coins wins the game. This game is used to 
 Demostrate advanced database concept using trigger, function, procedure, transaction etc. 
 
