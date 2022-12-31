@@ -149,6 +149,40 @@ app.post("/api/insert_chat", (req, res) => {
     });
 });
 
-app.listen(3001, () => {
-    console.log("running");
+
+app.get('/api/get_total_coin/', (req,res)=>{
+    const sqlSelect = "SELECT player1_coin, player2_coin from total_coin";
+    db.query(sqlSelect, (err, result)=>{
+        //console.log(result)
+        res.send(result);
+    });
 });
+
+app.get('/api/get_total_win/', (req,res)=>{
+    const sqlSelect = "SELECT player1_win, player2_win from total_win";
+    db.query(sqlSelect, (err, result)=>{
+        //console.log(result)
+        res.send(result);
+    });
+});
+
+app.post('/api/transfer_coin_from_player1', (req, res)=>{
+    const transfer_amount = req.body.transfer_amount
+    const sqlTransfer = "CALL transfer_p1_to_p2(?)"
+    db.query(sqlTransfer, [transfer_amount], (err, result)=>{
+        res.send(result)
+    });
+})
+
+app.post('/api/transfer_coin_from_player2', (req, res)=>{
+    const transfer_amount = req.body.transfer_amount
+    const sqlTransfer = "CALL transfer_p2_to_p1(?)"
+    db.query(sqlTransfer, [transfer_amount], (err, result)=>{
+        res.send(result)
+    });
+})
+
+app.listen(3001, ()=> {
+    console.log("running")
+})
+
