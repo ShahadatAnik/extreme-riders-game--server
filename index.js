@@ -182,7 +182,7 @@ app.post('/api/transfer_coin_from_player2', (req, res)=>{
     });
 })
 
-app.listen(3001, ()=> {
-    console.log("running")
-})
 
+app.listen(3001, () => {
+    console.log("running");
+});
