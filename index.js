@@ -112,6 +112,22 @@ app.get('/api/get_total_win/', (req,res)=>{
     });
 });
 
+app.post('/api/transfer_coin_from_player1', (req, res)=>{
+    const transfer_amount = req.body.transfer_amount
+    const sqlTransfer = "CALL transfer_p1_to_p2(?)"
+    db.query(sqlTransfer, [transfer_amount], (err, result)=>{
+        res.send(result)
+    });
+})
+
+app.post('/api/transfer_coin_from_player2', (req, res)=>{
+    const transfer_amount = req.body.transfer_amount
+    const sqlTransfer = "CALL transfer_p2_to_p1(?)"
+    db.query(sqlTransfer, [transfer_amount], (err, result)=>{
+        res.send(result)
+    });
+})
+
 app.listen(3001, ()=> {
     console.log("running")
 })
