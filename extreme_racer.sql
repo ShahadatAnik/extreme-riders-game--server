@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 31, 2022 at 12:25 PM
--- Server version: 10.4.25-MariaDB
--- PHP Version: 8.1.10
+-- Generation Time: Dec 31, 2022 at 06:37 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,7 +37,12 @@ SELECT player1_coin,player2_coin INTO player1_coin_pre, player2_coin_pre FROM to
 
   START TRANSACTION ;
 
-  UPDATE total_coin set player1_coin = player1_coin_pre - transfer_amount; UPDATE total_coin set player2_coin = player2_coin_pre + transfer_amount;
+  IF player1_coin_pre < transfer_amount THEN
+      ROLLBACK;
+  ELSE
+    UPDATE total_coin set player1_coin = player1_coin_pre - transfer_amount; 
+    UPDATE total_coin set player2_coin = player2_coin_pre + transfer_amount;
+  END IF;
 
   COMMIT ;
 
@@ -54,8 +59,12 @@ DECLARE player2_coin_pre INT;
 SELECT player1_coin,player2_coin INTO player1_coin_pre, player2_coin_pre FROM total_coin;
 
   START TRANSACTION ;
-
-  UPDATE total_coin set player2_coin = player2_coin_pre - transfer_amount; UPDATE total_coin set player1_coin = player1_coin_pre + transfer_amount;
+    IF player2_coin_pre < transfer_amount THEN
+    ROLLBACK;
+    ELSE
+      UPDATE total_coin set player2_coin = player2_coin_pre - transfer_amount; 
+    UPDATE total_coin set player1_coin = player1_coin_pre + transfer_amount;
+    END IF;
 
   COMMIT ;
 
@@ -64,14 +73,14 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateWinner` (IN `player1_coins` INT, IN `player2_coins` INT)   BEGIN
 	DECLARE player1_win_prev INT;
     DECLARE player2_win_prev INT;
-    DECLARE player1_winner INT;
-    DECLARE player2_winner INT;
+    DECLARE player1_winner float;
+    DECLARE player2_winner float;
 	SELECT player1_win into player1_win_prev FROM total_win;
     SELECT player2_win into player2_win_prev FROM total_win;
     
-    SET player1_winner = player1_win_prev+0.5;
+    SET player1_winner = player1_win_prev+1;
      
-    SET player2_winner = player2_win_prev+0.5;
+    SET player2_winner = player2_win_prev+1;
 
   	IF player1_coins > player2_coins THEN UPDATE total_win set player1_win = player1_winner;
     ELSEIF player1_coins < player2_coins THEN UPDATE total_win set player2_win = player2_winner;
@@ -115,8 +124,8 @@ CREATE TABLE `cars_position` (
 --
 
 INSERT INTO `cars_position` (`car_name`, `x_axis`, `y_axis`) VALUES
-('car_1', 780, 67),
-('car_2', 680, 160);
+('car_1', 1260, 227),
+('car_2', 380, 340);
 
 -- --------------------------------------------------------
 
@@ -134,7 +143,7 @@ CREATE TABLE `coins_earned` (
 --
 
 INSERT INTO `coins_earned` (`player1_coins`, `player2_coins`) VALUES
-(0, 0);
+(0, 1);
 
 --
 -- Triggers `coins_earned`
@@ -172,7 +181,7 @@ CREATE TABLE `top_player` (
 --
 
 INSERT INTO `top_player` (`player_name`) VALUES
-('Player 1');
+('Player 2');
 
 -- --------------------------------------------------------
 
@@ -190,7 +199,7 @@ CREATE TABLE `total_coin` (
 --
 
 INSERT INTO `total_coin` (`player1_coin`, `player2_coin`) VALUES
-(115, 81);
+(17, 221);
 
 -- --------------------------------------------------------
 
@@ -208,7 +217,7 @@ CREATE TABLE `total_win` (
 --
 
 INSERT INTO `total_win` (`player1_win`, `player2_win`) VALUES
-(30, 18);
+(32, 40);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
